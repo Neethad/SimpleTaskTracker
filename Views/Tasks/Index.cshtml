@@ -1,0 +1,49 @@
+@model IEnumerable<TaskItem>
+@{
+    ViewData["Title"] = "My Tasks";
+}
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">GET THINGS DONE</p>
+        <h1>My tasks</h1>
+        <p class="muted">A simple CRUD application built with ASP.NET Core MVC.</p>
+    </div>
+    <a class="button" asp-action="Create">+ Add task</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="empty">No tasks yet. Add your first task to get started.</div>
+}
+else
+{
+    <section class="task-list">
+    @foreach (var task in Model)
+    {
+        <article class="task-card">
+            <div class="task-content">
+                <h2 class="@(task.IsCompleted ? "completed" : "")">@task.Title</h2>
+                @if (!string.IsNullOrWhiteSpace(task.Description))
+                {
+                    <p class="muted">@task.Description</p>
+                }
+                <span class="status @(task.IsCompleted ? "done" : "pending")">
+                    @(task.IsCompleted ? "Completed" : "In progress")
+                </span>
+            </div>
+            <div class="actions">
+                <form asp-action="Toggle" asp-route-id="@task.Id" method="post">
+                    <button class="button button-light" type="submit">
+                        @(task.IsCompleted ? "Reopen" : "Complete")
+                    </button>
+                </form>
+                <a class="button button-light" asp-action="Edit" asp-route-id="@task.Id">Edit</a>
+                <form asp-action="Delete" asp-route-id="@task.Id" method="post"
+                      onsubmit="return confirm('Delete this task?');">
+                    <button class="button button-danger" type="submit">Delete</button>
+                </form>
+            </div>
+        </article>
+    }
+    </section>
+}

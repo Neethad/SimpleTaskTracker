@@ -1,0 +1,22 @@
+@model TaskItem
+@{
+    ViewData["Title"] = "Edit Task";
+}
+<h1>Edit task</h1>
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="form-card">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="validation"></div>
+    <label asp-for="Title"></label>
+    <input asp-for="Title" />
+    <span asp-validation-for="Title" class="validation"></span>
+
+    <label asp-for="Description"></label>
+    <textarea asp-for="Description" rows="4"></textarea>
+    <span asp-validation-for="Description" class="validation"></span>
+
+    <label class="check-label"><input asp-for="IsCompleted" /> Completed</label>
+    <div class="actions">
+        <button class="button" type="submit">Update task</button>
+        <a class="button button-light" asp-action="Index">Cancel</a>
+    </div>
+</form>
